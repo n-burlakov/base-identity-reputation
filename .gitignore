@@ -1,0 +1,8 @@
+node_modules
+dist
+frontend/dist
+contracts/cache
+contracts/artifacts
+.env
+contracts/.env
+frontend/.env
