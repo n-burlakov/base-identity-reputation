@@ -9,6 +9,37 @@ This repository contains a minimal but complete example of a **proof-of-identity
 
 > Status: MVP. Deployed and tested on **Base Sepolia**. Can be extended to Base mainnet later.
 
+### 🚀 Live Demo
+
+**Try it now**: [https://base-identity-reputation.vercel.app/](https://base-identity-reputation.vercel.app/)
+
+Connect your wallet to **Base Sepolia (chainId 84532)** and register your on-chain identity profile.
+
+---
+
+### About
+
+**Base Identity & Reputation** is a minimal but complete MVP for building on-chain identity and reputation systems on Base (Coinbase's L2).
+
+#### What it does
+
+- **On-chain identity profiles**: Users can register their Ethereum address as an on-chain identity, attaching metadata (IPFS, URL, or JSON) to their profile.
+- **Reputation system**: Registered users can give reputation points (upvotes) to other addresses, with a per-pair limit of 100 points. Reputation is stored on-chain and publicly verifiable.
+- **Public profile lookup**: Anyone can query any address to see registration status, metadata, and total reputation score.
+
+#### Why it matters
+
+This project serves as a **composable building block** for:
+
+- **Proof-of-humanity / identity verification**: A foundation for systems that need to verify unique human users on-chain.
+- **Reputation-based applications**: Enables credit scoring, DAO governance, private applications, and other use cases where trust and history matter.
+- **DeFi composability**: Can be integrated into lending protocols, social dApps, or any application that benefits from on-chain identity and reputation data.
+- **Base ecosystem contribution**: Demonstrates active building on Base with a deployed, verified contract and working dApp.
+
+Built on **Base Sepolia** (chainId 84532) for low gas costs and fast transactions, with a clear path to Base mainnet deployment.
+
+---
+
 ### Idea
 
 - Register an on-chain profile by wallet address.
@@ -104,5 +135,5 @@ The project is designed as a small, composable building block for **identity / p
 
 After deployment, remember to copy the contract address into `VITE_IDENTITY_CONTRACT_ADDRESS` in the frontend `.env`.
 
-> TODO: once hosted (e.g. on Vercel/Netlify), add a **Live demo** link here.
+**Live demo**: [https://base-identity-reputation.vercel.app/](https://base-identity-reputation.vercel.app/)
 
