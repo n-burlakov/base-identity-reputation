@@ -8,14 +8,14 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import './index.css'
 import App from './App.tsx'
 
-const rpcUrl = import.meta.env.VITE_BASE_SEPOLIA_RPC_URL
+const rpcUrl = import.meta.env.VITE_BASE_SEPOLIA_RPC_URL ?? 'https://sepolia.base.org'
 
 const config = createConfig({
   chains: [baseSepolia],
   transports: {
     [baseSepolia.id]: http(rpcUrl),
   },
-  connectors: [injected({ target: 'metaMask' })],
+  connectors: [injected()],
 })
 
 const queryClient = new QueryClient()

@@ -52,7 +52,12 @@ const contractAbi = [
 
 function App() {
   const { address, isConnected, chain } = useAccount()
-  const { connect, connectors, isPending: isConnectPending } = useConnect()
+  const {
+    connect,
+    connectors,
+    isPending: isConnectPending,
+    error: connectError,
+  } = useConnect()
   const { disconnect } = useDisconnect()
 
   const [metadata, setMetadata] = useState('')
@@ -142,18 +147,23 @@ function App() {
                 Disconnect
               </button>
             </>
+          ) : connectors.length === 0 ? (
+            <span className="pill">
+              No injected wallet found. Install MetaMask or a compatible browser wallet.
+            </span>
           ) : (
-            <button
-              type="button"
-              onClick={() => {
-                const connector = connectors[0]
-                if (!connector) return
-                connect({ connector })
-              }}
-              disabled={isConnectPending}
-            >
-              {isConnectPending ? 'Connecting…' : 'Connect Wallet'}
-            </button>
+            <div className="wallet-actions">
+              <button
+                type="button"
+                onClick={() => connect({ connector: connectors[0] })}
+                disabled={isConnectPending}
+              >
+                {isConnectPending ? 'Connecting…' : 'Connect Wallet'}
+              </button>
+              {connectError && (
+                <span className="error small">Connect error: {connectError.message}</span>
+              )}
+            </div>
           )}
         </div>
       </header>

@@ -1,84 +1,108 @@
 ## Base Identity & Reputation
 
-Простой MVP-проект для сети Base: on-chain identity + reputation.
+On-chain identity and reputation MVP for the Base ecosystem.
 
-### Идея
+This repository contains a minimal but complete example of a **proof-of-identity & reputation system** on **Base (Base Sepolia, chainId 84532)**:
 
-- Регистрация on-chain профиля по адресу кошелька.
-- Метаданные профиля (строка / ссылка / IPFS-URL).
-- Выдача репутации другим адресам (upvote) с ограничением.
-- Просмотр суммарной репутации адреса через контракт и простой фронтенд.
+- **Smart contract** that stores profiles and reputation on-chain.
+- **Frontend dApp** that lets users register their profile, update metadata and give reputation to other addresses.
 
-### Структура
+> Status: MVP. Deployed and tested on **Base Sepolia**. Can be extended to Base mainnet later.
 
-- `contracts/` — смарт-контракты и Hardhat-конфигурация.
-- `frontend/` — React + Vite фронтенд.
+### Idea
 
-### Контракты: настройка и деплой
+- Register an on-chain profile by wallet address.
+- Store profile metadata as a simple string / URL / IPFS URI.
+- Allow users to **give reputation** (upvotes) to other addresses with a per-pair limit.
+- Expose a simple read API (contract + frontend) to fetch profile & reputation for any address.
 
-1. Перейти в директорию контрактов:
+### Tech stack
+
+- `contracts/` — Solidity smart contract + Hardhat (`BaseIdentityReputation.sol`).
+- `frontend/` — React + TypeScript + Vite, using `wagmi` + `viem` for wallet connection and contract calls.
+
+The project is designed as a small, composable building block for **identity / proof-of-humanity / reputation** flows on Base.
+
+---
+
+### Contracts: setup & deploy (Base Sepolia)
+
+1. Go to the contracts directory:
 
    ```bash
    cd contracts
    npm install
    ```
 
-2. Создать файл `.env` со значениями для Base Sepolia:
+2. Create a `.env` file with Base Sepolia RPC and deployer key:
 
    ```bash
    BASE_SEPOLIA_RPC_URL=https://sepolia.base.org
-   PRIVATE_KEY=0xВАШ_ПРИВАТНЫЙ_КЛЮЧ
+   PRIVATE_KEY=0xYOUR_PRIVATE_KEY
    ```
 
-   Приватный ключ — от аккаунта, из которого вы будете деплоить контракт (без кавычек).
+   The private key should belong to the account you want to deploy from (no quotes).
 
-3. Скомпилировать контракт:
+3. Compile the contract:
 
    ```bash
    npx hardhat compile
    ```
 
-4. Задеплоить контракт в Base Sepolia:
+4. Deploy to **Base Sepolia**:
 
    ```bash
    npx hardhat run scripts/deploy.js --network baseSepolia
    ```
 
-   В консоли появится адрес контракта вида:
+   The script will print the deployed contract address:
 
    ```text
    BaseIdentityReputation deployed to: 0x...
    ```
 
-   Скопируйте этот адрес — он понадобится фронтенду.
+   Copy this address — you will need it for the frontend.
 
-### Фронтенд: настройка и запуск
+**Base Sepolia deployment**
 
-1. Перейти в директорию фронтенда:
+- Network: `Base Sepolia` (chainId `84532`)
+- Contract: `BaseIdentityReputation`
+- Address: `0x5B3Ff49Cd951c676F982B14c10eDD0E19056Ac2e`
+- Explorer: [BaseScan (Sepolia)](https://sepolia.basescan.org/address/0x5B3Ff49Cd951c676F982B14c10eDD0E19056Ac2e)
+
+> If deployed to Base mainnet in the future, add the mainnet address and explorer link here as well.
+
+---
+
+### Frontend: setup & run
+
+1. Go to the frontend directory:
 
    ```bash
    cd ../frontend
    npm install
    ```
 
-2. Создать файл `.env` (рядом с `package.json`) со следующими переменными:
+2. Create a `.env` file (next to `package.json`) with:
 
    ```bash
    VITE_BASE_SEPOLIA_RPC_URL=https://sepolia.base.org
-   VITE_IDENTITY_CONTRACT_ADDRESS=0xАДРЕС_ВАШЕГО_КОНТРАКТА
+   VITE_IDENTITY_CONTRACT_ADDRESS=0x5B3Ff49Cd951c676F982B14c10eDD0E19056Ac2e
    ```
 
-3. Запустить dev-сервер:
+3. Start the dev server:
 
    ```bash
    npm run dev
    ```
 
-4. Открыть указанный в консоли адрес (обычно `http://localhost:5173`) и:
-   - подключить кошелёк (MetaMask) к сети **Base Sepolia (chainId 84532)**;
-   - зарегистрировать профиль (metadata URI — любая строка/URL/IPFS-ссылка);
-   - при желании выдать репутацию другим адресам.
+4. Open the URL printed in the console (usually `http://localhost:5173`) and:
 
-После деплоя не забудь скопировать адрес контракта в переменную `VITE_IDENTITY_CONTRACT_ADDRESS` во фронтенде.
+   - connect your wallet (MetaMask) to **Base Sepolia (chainId 84532)**;
+   - register your on-chain profile (metadata URI can be any string / URL / IPFS link);
+   - optionally give reputation to other addresses (up to 100 points per address).
 
+After deployment, remember to copy the contract address into `VITE_IDENTITY_CONTRACT_ADDRESS` in the frontend `.env`.
+
+> TODO: once hosted (e.g. on Vercel/Netlify), add a **Live demo** link here.
 
