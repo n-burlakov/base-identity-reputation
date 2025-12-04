@@ -184,6 +184,60 @@
   color: #e5e7eb;
 }
 
+.stats {
+  font-size: 0.9rem;
+}
+
+.stats p {
+  margin: 0 0 0.8rem;
+  color: #d1d5db;
+}
+
+.stats-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.8rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stats-list li {
+  padding: 0.4rem 0;
+  color: #d1d5db;
+}
+
+.stats-list strong {
+  color: #e5e7eb;
+  margin-right: 0.3rem;
+}
+
+.link {
+  color: #38bdf8;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease-out, color 0.2s ease-out;
+}
+
+.link:hover {
+  color: #60d5fa;
+  border-bottom-color: #60d5fa;
+}
+
+.stats-note {
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 0.8rem;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  color: #a5d8ff;
+  font-size: 0.85rem;
+}
+
+.stats-note strong {
+  color: #e0f2fe;
+}
+
 @media (max-width: 880px) {
   .app {
     margin: 1.75rem 1rem 2.5rem;

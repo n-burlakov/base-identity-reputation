@@ -137,3 +137,113 @@ After deployment, remember to copy the contract address into `VITE_IDENTITY_CONT
 
 **Live demo**: [https://base-identity-reputation.vercel.app/](https://base-identity-reputation.vercel.app/)
 
+---
+
+### API & Integration
+
+#### Contract ABI
+
+The contract ABI is available in the deployed contract on [BaseScan](https://sepolia.basescan.org/address/0x5B3Ff49Cd951c676F982B14c10eDD0E19056Ac2e#code). You can also find it in `contracts/artifacts/contracts/BaseIdentityReputation.sol/BaseIdentityReputation.json` after compilation.
+
+#### Key Functions
+
+**Read functions:**
+- `getProfile(address user) → (bool registered, string metadataURI, uint256 reputation)` - Get full profile data
+- `isRegistered(address user) → bool` - Check if address is registered
+- `reputationOf(address user) → uint256` - Get reputation score
+- `givenReputation(address from, address to) → uint256` - Check how much reputation one address gave to another
+
+**Write functions:**
+- `register(string metadataURI)` - Register a new profile (one-time)
+- `updateMetadata(string metadataURI)` - Update profile metadata (requires registration)
+- `giveReputation(address to, uint256 amount)` - Give reputation to another address (requires registration, max 100 per pair)
+
+#### Events
+
+- `Registered(address indexed user, string metadataURI)` - Emitted when a profile is registered
+- `MetadataUpdated(address indexed user, string metadataURI)` - Emitted when metadata is updated
+- `ReputationGiven(address indexed from, address indexed to, uint256 amount)` - Emitted when reputation is given
+
+> 📖 **Full integration guide**: See [INTEGRATION_EXAMPLE.md](./INTEGRATION_EXAMPLE.md) for complete examples with ethers.js, viem, and smart contract integration.
+
+#### Quick Integration Example
+
+```typescript
+import { createPublicClient, http } from 'viem'
+import { baseSepolia } from 'viem/chains'
+
+const client = createPublicClient({
+  chain: baseSepolia,
+  transport: http('https://sepolia.base.org')
+})
+
+const CONTRACT_ADDRESS = '0x5B3Ff49Cd951c676F982B14c10eDD0E19056Ac2e' as `0x${string}`
+
+// Read profile
+const profile = await client.readContract({
+  address: CONTRACT_ADDRESS,
+  abi: [...], // Contract ABI
+  functionName: 'getProfile',
+  args: ['0x...'] // User address
+})
+
+// Check if registered
+const isRegistered = await client.readContract({
+  address: CONTRACT_ADDRESS,
+  abi: [...],
+  functionName: 'isRegistered',
+  args: ['0x...']
+})
+```
+
+---
+
+### Roadmap
+
+#### ✅ Completed (MVP)
+- [x] Smart contract deployment on Base Sepolia
+- [x] Contract verification on BaseScan
+- [x] Frontend dApp with wallet connection
+- [x] Profile registration and metadata management
+- [x] Reputation system with per-pair limits
+- [x] Live demo deployment on Vercel
+
+#### 🚧 In Progress / Planned
+- [ ] **Mainnet deployment**: Deploy to Base mainnet (chainId 8453)
+- [ ] **Statistics dashboard**: Add on-chain metrics (total users, reputation given, transactions)
+- [ ] **Enhanced documentation**: Integration guides, use cases, examples
+- [ ] **Community engagement**: Share project, gather early users, collect feedback
+
+#### 🔮 Future Enhancements
+- [ ] **Proof-of-humanity features**: Anti-sybil mechanisms, optional verification
+- [ ] **Reputation history**: Track reputation changes over time, decay mechanisms
+- [ ] **Social features**: Profile discovery, reputation leaderboards
+- [ ] **Integration examples**: Example dApps using this system (lending, DAO, social)
+- [ ] **Multi-chain support**: Extend to other L2s or mainnet
+
+---
+
+### Contributing
+
+Contributions are welcome! This project is designed as a composable building block for the Base ecosystem.
+
+**How to contribute:**
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+**Ideas for contributions:**
+- Improve documentation
+- Add new features (see Roadmap)
+- Fix bugs or improve UX
+- Add integration examples
+- Improve test coverage
+
+---
+
+### License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+

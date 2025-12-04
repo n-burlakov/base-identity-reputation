@@ -269,6 +269,63 @@ function App() {
             </form>
           )}
         </section>
+
+        <section className="card">
+          <h2>Statistics & Analytics</h2>
+          <div className="stats">
+            <p>
+              View on-chain activity and contract statistics on{' '}
+              <a
+                href={`https://sepolia.basescan.org/address/${CONTRACT_ADDRESS}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link"
+              >
+                BaseScan
+              </a>
+              :
+            </p>
+            <ul className="stats-list">
+              <li>
+                <strong>Contract:</strong>{' '}
+                <a
+                  href={`https://sepolia.basescan.org/address/${CONTRACT_ADDRESS}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link"
+                >
+                  {CONTRACT_ADDRESS?.slice(0, 6)}…{CONTRACT_ADDRESS?.slice(-4)}
+                </a>
+              </li>
+              <li>
+                <strong>Events:</strong>{' '}
+                <a
+                  href={`https://sepolia.basescan.org/address/${CONTRACT_ADDRESS}#events`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link"
+                >
+                  View Registered, ReputationGiven events
+                </a>
+              </li>
+              <li>
+                <strong>Transactions:</strong>{' '}
+                <a
+                  href={`https://sepolia.basescan.org/address/${CONTRACT_ADDRESS}#internaltx`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link"
+                >
+                  View all contract interactions
+                </a>
+              </li>
+            </ul>
+            <p className="stats-note">
+              💡 <strong>Tip:</strong> Use BaseScan to track total registrations, reputation given,
+              and contract usage metrics.
+            </p>
+          </div>
+        </section>
       </main>
 
       <footer className="footer">
