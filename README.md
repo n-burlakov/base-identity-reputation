@@ -2,18 +2,18 @@
 
 On-chain identity and reputation MVP for the Base ecosystem.
 
-This repository contains a minimal but complete example of a **proof-of-identity & reputation system** on **Base (Base Sepolia, chainId 84532)**:
+This repository contains a minimal but complete example of a **proof-of-identity & reputation system** on **Base**:
 
 - **Smart contract** that stores profiles and reputation on-chain.
 - **Frontend dApp** that lets users register their profile, update metadata and give reputation to other addresses.
 
-> Status: MVP. Deployed and tested on **Base Sepolia**. Can be extended to Base mainnet later.
+> Status: MVP. Deployed on **Base Mainnet** (chainId 8453) and **Base Sepolia** (chainId 84532).
 
 ### 🚀 Live Demo
 
 **Try it now**: [https://base-identity-reputation.vercel.app/](https://base-identity-reputation.vercel.app/)
 
-Connect your wallet to **Base Sepolia (chainId 84532)** and register your on-chain identity profile.
+Connect your wallet to **Base Mainnet (chainId 8453)** or **Base Sepolia (chainId 84532)** and register your on-chain identity profile.
 
 ---
 
@@ -36,7 +36,7 @@ This project serves as a **composable building block** for:
 - **DeFi composability**: Can be integrated into lending protocols, social dApps, or any application that benefits from on-chain identity and reputation data.
 - **Base ecosystem contribution**: Demonstrates active building on Base with a deployed, verified contract and working dApp.
 
-Built on **Base Sepolia** (chainId 84532) for low gas costs and fast transactions, with a clear path to Base mainnet deployment.
+Deployed on **Base Mainnet** (chainId 8453) and **Base Sepolia** (chainId 84532) for low gas costs and fast transactions.
 
 ---
 
@@ -53,6 +53,41 @@ Built on **Base Sepolia** (chainId 84532) for low gas costs and fast transaction
 - `frontend/` — React + TypeScript + Vite, using `wagmi` + `viem` for wallet connection and contract calls.
 
 The project is designed as a small, composable building block for **identity / proof-of-humanity / reputation** flows on Base.
+
+### Architecture
+
+```
+┌─────────────────┐
+│   Frontend dApp │
+│  (React + Vite) │
+└────────┬────────┘
+         │
+         │ wagmi/viem
+         │
+         ▼
+┌─────────────────┐
+│  Base Network   │
+│  (Sepolia/Main) │
+└────────┬────────┘
+         │
+         │ on-chain calls
+         │
+         ▼
+┌─────────────────────────┐
+│ BaseIdentityReputation  │
+│    Smart Contract        │
+│                          │
+│  • register()           │
+│  • giveReputation()      │
+│  • getProfile()          │
+└─────────────────────────┘
+```
+
+**Data Flow:**
+1. User connects wallet (MetaMask) → Frontend
+2. Frontend calls contract functions via wagmi/viem
+3. Contract stores data on-chain (Base L2)
+4. Anyone can read profile/reputation via contract view functions
 
 ---
 
@@ -94,14 +129,19 @@ The project is designed as a small, composable building block for **identity / p
 
    Copy this address — you will need it for the frontend.
 
-**Base Sepolia deployment**
+**Base Sepolia deployment (Testnet)**
 
 - Network: `Base Sepolia` (chainId `84532`)
 - Contract: `BaseIdentityReputation`
 - Address: `0x5B3Ff49Cd951c676F982B14c10eDD0E19056Ac2e`
 - Explorer: [BaseScan (Sepolia)](https://sepolia.basescan.org/address/0x5B3Ff49Cd951c676F982B14c10eDD0E19056Ac2e)
 
-> If deployed to Base mainnet in the future, add the mainnet address and explorer link here as well.
+**Base Mainnet deployment**
+
+- Network: `Base` (chainId `8453`)
+- Contract: `BaseIdentityReputation`
+- Address: `0x7Ca446050598E2fD509b0ed63B9F28f79538334F`
+- Explorer: [BaseScan](https://basescan.org/address/0x7Ca446050598E2fD509b0ed63B9F28f79538334F)
 
 ---
 
@@ -177,7 +217,10 @@ const client = createPublicClient({
   transport: http('https://sepolia.base.org')
 })
 
-const CONTRACT_ADDRESS = '0x5B3Ff49Cd951c676F982B14c10eDD0E19056Ac2e' as `0x${string}`
+// Base Mainnet
+const IDENTITY_CONTRACT_MAINNET = '0x7Ca446050598E2fD509b0ed63B9F28f79538334F' as `0x${string}`
+// Base Sepolia (testnet)
+const IDENTITY_CONTRACT_SEPOLIA = '0x5B3Ff49Cd951c676F982B14c10eDD0E19056Ac2e' as `0x${string}`
 
 // Read profile
 const profile = await client.readContract({
